@@ -1,8 +1,12 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
+const MAX_GUEST_MESSAGES = 3
+
 const auth = useAuthStore()
+const router = useRouter()
 const open = ref(false)
 const welcomeContent = computed(() => {
   const name = auth.profile?.full_name?.split(' ')[0] || null
@@ -17,11 +21,13 @@ const input = ref('')
 const loading = ref(false)
 const demoMode = ref(false)
 
-const canSend = computed(() => input.value.trim() && !loading.value)
+const userMessageCount = computed(() => messages.value.filter((m) => m.role === 'user').length)
+const limitReached = computed(() => !auth.isLoggedIn && userMessageCount.value >= MAX_GUEST_MESSAGES)
+const canSend = computed(() => input.value.trim() && !loading.value && !limitReached.value)
 
 async function send() {
   const text = input.value.trim()
-  if (!text || loading.value) return
+  if (!text || loading.value || limitReached.value) return
   messages.value.push({ role: 'user', content: text })
   input.value = ''
   loading.value = true
@@ -88,8 +94,22 @@ function toggle() {
                 Réflexion…
               </div>
             </div>
+            <div v-if="limitReached" class="rounded-lg border border-brand-gold/50 bg-brand-gold/10 p-4 text-sm text-gray-200">
+              <p class="font-medium text-brand-gold">Limite atteinte (3 échanges)</p>
+              <p class="mt-1">Créez un compte gratuit pour discuter sans limite avec l’assistant.</p>
+              <button
+                type="button"
+                class="mt-3 rounded-lg bg-brand-gold px-4 py-2 text-sm font-medium text-brand-dark transition hover:bg-brand-goldDim"
+                @click="router.push('/inscription'); toggle()"
+              >
+                Créer un compte
+              </button>
+            </div>
           </div>
-          <form class="border-t border-brand-border p-3" @submit.prevent="send">
+          <form v-if="!limitReached" class="border-t border-brand-border p-3" @submit.prevent="send">
+            <div v-if="!auth.isLoggedIn" class="mb-2 text-center text-xs text-brand-muted">
+              {{ userMessageCount }} / {{ MAX_GUEST_MESSAGES }} échanges (visiteur)
+            </div>
             <div class="flex gap-2">
               <input
                 v-model="input"
@@ -107,6 +127,9 @@ function toggle() {
               </button>
             </div>
           </form>
+          <div v-else class="border-t border-brand-border p-3">
+            <p class="text-center text-xs text-gray-500">Connectez-vous pour continuer la conversation.</p>
+          </div>
         </div>
       </div>
     </Transition>
