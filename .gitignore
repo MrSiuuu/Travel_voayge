@@ -1,0 +1,34 @@
+node_modules
+dist
+.DS_Store
+npm-debug.log*
+
+# --- Secrets et variables d'environnement (ne jamais committer) ---
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+# Garder .env.example (template sans clés) : ne pas l'ignorer
+!.env.example
+
+# Fichiers sensibles courants
+*.pem
+*.key
+.npmrc
+config.local.*
+**/secrets.*
+
+# Fichiers d’éditeur / outils
+.vscode
+.idea
+.cursor
+
+# Builds Vite
+*.log
+
+# Médias lourds du rendu 1 (déjà présents dans le dossier)
+travel partie 1/
+videos/
+*.zip
+
