@@ -43,3 +43,29 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- Table réservations (chaque utilisateur voit uniquement les siennes)
+create table if not exists public.reservations (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  destination_id text not null,
+  destination_name text not null,
+  destination_epoch text,
+  status text not null default 'confirmée' check (status in ('en_attente', 'confirmée', 'annulée')),
+  date_voyage_souhaitee date,
+  created_at timestamptz default now()
+);
+
+alter table public.reservations enable row level security;
+
+create policy "Users can read own reservations"
+  on public.reservations for select
+  using (auth.uid() = user_id);
+
+create policy "Users can insert own reservations"
+  on public.reservations for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can update own reservations"
+  on public.reservations for update
+  using (auth.uid() = user_id);

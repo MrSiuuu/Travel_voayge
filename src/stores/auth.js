@@ -37,6 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function signUp(email, password, meta = {}) {
     if (!supabase) return { error: new Error('Supabase non configuré') }
+    // Avec "Confirm email" désactivé dans Supabase Auth, la session est créée tout de suite
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -67,12 +68,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function userContextForChat() {
-    if (!user.value && !profile.value) return null
+    if (!user.value) return null
     const parts = []
-    if (profile.value?.full_name) parts.push(`Nom: ${profile.value.full_name}`)
+    if (profile.value?.full_name) parts.push(`Nom du client: ${profile.value.full_name}`)
+    parts.push(`Email: ${user.value.email}`)
     if (profile.value?.preferred_era) parts.push(`Époque préférée: ${profile.value.preferred_era}`)
-    if (profile.value?.travel_goals) parts.push(`Objectifs: ${profile.value.travel_goals}`)
-    return parts.length ? parts.join('. ') : `Utilisateur connecté (${user.value?.email})`
+    if (profile.value?.travel_goals) parts.push(`Objectifs voyage: ${profile.value.travel_goals}`)
+    return parts.join('. ')
   }
 
   return {

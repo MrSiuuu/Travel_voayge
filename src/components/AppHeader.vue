@@ -7,10 +7,11 @@ const router = useRouter()
 const auth = useAuthStore()
 const menuOpen = ref(false)
 
-const navLinks = [
+const navLinks = computed(() => [
   { path: '/', label: 'Accueil' },
   { path: '/destinations', label: 'Destinations' },
-]
+  ...(auth.isLoggedIn ? [{ path: '/dashboard', label: 'Mon espace' }] : []),
+])
 
 function goTo(path) {
   router.push(path)
@@ -42,6 +43,7 @@ function logout() {
           {{ link.label }}
         </router-link>
         <template v-if="auth.isLoggedIn">
+          <router-link to="/dashboard" class="text-sm font-medium text-gray-300 transition hover:text-brand-gold">Mon espace</router-link>
           <span class="text-sm text-brand-muted">{{ auth.profile?.full_name || auth.user?.email }}</span>
           <button type="button" class="text-sm font-medium text-gray-300 transition hover:text-brand-gold" @click="logout">
             Déconnexion
@@ -89,6 +91,7 @@ function logout() {
           {{ link.label }}
         </button>
         <template v-if="auth.isLoggedIn">
+          <button type="button" class="text-left text-sm font-medium text-brand-gold" @click="goTo('/dashboard')">Mon espace</button>
           <span class="border-t border-brand-border pt-2 text-sm text-brand-muted">{{ auth.user?.email }}</span>
           <button type="button" class="text-left text-sm text-gray-300" @click="logout">Déconnexion</button>
         </template>

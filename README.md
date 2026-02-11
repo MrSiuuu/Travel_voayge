@@ -31,7 +31,7 @@ npm install
 ## Base de données Supabase
 
 1. Ouvrir le [Dashboard Supabase](https://supabase.com/dashboard) > votre projet > **SQL Editor**.
-2. Exécuter le script `supabase-schema.sql` (création de `profiles` + RLS + trigger pour nouveau user).
+2. Exécuter le script `supabase-schema.sql` (création de `profiles`, `reservations`, RLS et trigger pour nouveau user).
 
 ## Lancement
 
@@ -76,7 +76,10 @@ Le serveur API doit être déployé séparément (ex. Railway, Render) et l’UR
 - **Destinations** : liste + pages détail (description, points forts, consignes de sécurité, visuels).
 - **Chat** : widget fixe ; envoi des messages au proxy qui appelle Perplexity avec le contexte (destinations + règles) ; prise en compte du profil utilisateur si connecté ; mode démo si l’API est indisponible.
 - **Quiz** : quelques questions → recommandation d’une destination → lien vers la fiche.
-- **Auth** : inscription / connexion Supabase ; profil (nom, etc.) utilisé pour personnaliser les réponses du chat.
+- **Auth** : inscription / connexion Supabase ; après connexion, redirection vers le dashboard.
+- **Dashboard** : espace utilisateur (accès après connexion) avec liste des réservations, reçus et bouton « Nouvelle réservation ».
+- **Réservations** : formulaire (destination + date souhaitée) ; chaque réservation s’affiche comme un reçu dans le dashboard.
+- **Chat** : l’assistant reçoit le contexte utilisateur (nom, email, préférences) pour personnaliser les réponses.
 
 ## Usage de l’IA
 

@@ -18,7 +18,7 @@ Destinations proposées:
 2. Florence 1504 — Renaissance italienne, ateliers de Léonard de Vinci et Michel-Ange, culture et art.
 3. Paris 1889 — Exposition universelle, Tour Eiffel, Belle Époque, vie parisienne.
 
-Règles: réponds en français, de manière professionnelle et concise. Ne dépasse pas 3-4 phrases sauf si le client demande plus de détails. Ne invente pas de destinations hors de cette liste. Rappelle les consignes de sécurité du voyage temporel si pertinent.`
+Règles: réponds en français, de manière professionnelle et concise. Ne dépasse pas 3-4 phrases sauf si le client demande plus de détails. Ne invente pas de destinations hors de cette liste. Rappelle les consignes de sécurité du voyage temporel si pertinent. Si un contexte utilisateur est fourni (nom, email, préférences), utilise le prénom ou le nom pour t'adresser au client de façon personnalisée.`
 
 const MAX_MESSAGES = 20
 const MAX_RESPONSE_TOKENS = 300

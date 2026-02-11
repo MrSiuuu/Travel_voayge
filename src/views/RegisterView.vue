@@ -32,8 +32,9 @@ async function submit() {
     error.value = err.message || 'Inscription impossible.'
     return
   }
-  success.value = 'Compte créé. Vous pouvez vous connecter.'
-  if (data?.user) router.push('/')
+  // Confirmation email désactivée sur Supabase : l'utilisateur est connecté directement
+  success.value = 'Compte créé. Redirection vers votre espace…'
+  if (data?.user) router.push('/dashboard')
 }
 </script>
 

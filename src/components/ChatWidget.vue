@@ -1,12 +1,18 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
 
 const auth = useAuthStore()
 const open = ref(false)
-const messages = ref([
-  { role: 'assistant', content: 'Bonjour. Je suis l\'assistant de TimeTravel Agency. Je peux vous aider à choisir entre le Crétacé, Florence 1504 et Paris 1889, ou répondre à vos questions sur nos destinations et la sécurité des voyages temporels.' },
-])
+const welcomeContent = computed(() => {
+  const name = auth.profile?.full_name?.split(' ')[0] || null
+  const base = 'Je suis l\'assistant de TimeTravel Agency. Je peux vous aider à choisir entre le Crétacé, Florence 1504 et Paris 1889, ou répondre à vos questions sur nos destinations et la sécurité des voyages temporels.'
+  return name ? `Bonjour ${name}. ${base}` : `Bonjour. ${base}`
+})
+const messages = ref([])
+onMounted(() => {
+  if (messages.value.length === 0) messages.value = [{ role: 'assistant', content: welcomeContent.value }]
+})
 const input = ref('')
 const loading = ref(false)
 const demoMode = ref(false)

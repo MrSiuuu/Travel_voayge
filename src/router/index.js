@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -8,7 +9,16 @@ const router = createRouter({
     { path: '/destinations/:id', name: 'destination', component: () => import('../views/DestinationDetailView.vue'), meta: { title: 'Destination' } },
     { path: '/connexion', name: 'login', component: () => import('../views/LoginView.vue'), meta: { title: 'Connexion' } },
     { path: '/inscription', name: 'register', component: () => import('../views/RegisterView.vue'), meta: { title: 'Inscription' } },
+    { path: '/dashboard', name: 'dashboard', component: () => import('../views/DashboardView.vue'), meta: { title: 'Mon espace', requiresAuth: true } },
   ],
+})
+
+router.beforeEach((to) => {
+  const auth = useAuthStore()
+  if (to.meta.requiresAuth && !auth.isLoggedIn) {
+    return { name: 'login', query: { redirect: to.fullPath } }
+  }
+  return true
 })
 
 router.afterEach((to) => {

@@ -23,7 +23,8 @@ async function submit() {
     error.value = err.message || 'Connexion impossible.'
     return
   }
-  router.push('/')
+  const redirect = (router.currentRoute.value.query.redirect) || '/dashboard'
+  router.push(redirect)
 }
 </script>
 
