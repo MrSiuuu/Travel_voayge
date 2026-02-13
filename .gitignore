@@ -27,6 +27,9 @@ config.local.*
 # Builds Vite
 *.log
 
+# Fichiers à ne pas pousser sur le dépôt
+plan.md
+
 # Médias lourds du rendu 1 (déjà présents dans le dossier)
 travel partie 1/
 videos/
