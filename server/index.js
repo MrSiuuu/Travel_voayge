@@ -1,24 +1,39 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import fs from 'fs'
 
-dotenv.config({ path: '.env' })
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+dotenv.config({ path: path.join(__dirname, '..', '.env') })
 
 const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY || process.env['Perplexity api key']
 const PORT = process.env.PORT || 3001
+const distPath = path.join(process.cwd(), 'dist')
+const serveFrontend = fs.existsSync(distPath)
 
 const app = express()
 app.use(cors({ origin: true }))
 app.use(express.json())
 
-const SYSTEM_CONTEXT = `Tu es l'assistant de TimeTravel Agency, une agence de voyage dans le temps. Ton rôle est d'aider les clients à choisir une destination et à répondre à leurs questions.
+const SYSTEM_CONTEXT = `Tu es l'assistant de TimeTravel Agency, une agence de voyage dans le temps. Ton rôle est d'aider les clients à choisir une destination, à comprendre les offres et à les guider vers la réservation.
 
 Destinations proposées:
 1. Crétacé (-65 millions d'années) — Époque des dinosaures, nature sauvage, expérience paléontologique.
 2. Florence 1504 — Renaissance italienne, ateliers de Léonard de Vinci et Michel-Ange, culture et art.
 3. Paris 1889 — Exposition universelle, Tour Eiffel, Belle Époque, vie parisienne.
 
-Règles: réponds en français, de manière professionnelle et concise. Ne dépasse pas 3-4 phrases sauf si le client demande plus de détails. Ne invente pas de destinations hors de cette liste. Rappelle les consignes de sécurité du voyage temporel si pertinent. Si un contexte utilisateur est fourni (nom, email, préférences), utilise le prénom ou le nom pour t'adresser au client de façon personnalisée.`
+Règles:
+- réponds en français, de manière professionnelle et concise;
+- ne dépasse pas 3-4 phrases sauf si le client demande plus de détails;
+- n'invente pas de destinations hors de cette liste;
+- rappelle les consignes de sécurité du voyage temporel si pertinent;
+- si un contexte utilisateur est fourni (nom, email, préférences, statut invité/ connecté), utilise le prénom ou le nom pour t'adresser au client de façon personnalisée;
+- si l'utilisateur parle de réserver, d'acheter, de bloquer des dates ou de \"passer à l'action\":
+  * s'il est invité (non connecté), explique clairement qu'il doit créer un compte puis utiliser son espace \"Mon espace\" (dashboard) pour lancer une réservation;
+  * s'il est connecté, indique clairement qu'il doit aller dans l'espace \"Mon espace\" (chemin /dashboard) et cliquer sur le bouton \"Nouvelle réservation\" pour créer sa réservation;
+- lorsque c'est utile, rappelle l'existence de la page des destinations (/destinations) pour voir le détail des offres.`
 
 const MAX_MESSAGES = 20
 const MAX_RESPONSE_TOKENS = 300
@@ -84,5 +99,14 @@ app.post('/api/chat', async (req, res) => {
     })
   }
 })
+
+// Si dist/ existe (après build) : servir le front + fallback SPA pour le déploiement tout-en-un
+if (serveFrontend) {
+  app.use(express.static(distPath))
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next()
+    res.sendFile(path.join(distPath, 'index.html'))
+  })
+}
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))

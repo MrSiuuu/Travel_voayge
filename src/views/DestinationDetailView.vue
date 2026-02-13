@@ -17,7 +17,7 @@ onMounted(() => {
 
 <template>
   <div v-if="!destination" class="mx-auto max-w-6xl px-4 py-24 text-center">
-    <h1 class="font-serif text-2xl text-white">Destination introuvable</h1>
+    <h1 class="font-serif text-2xl text-gray-900 dark:text-white">Destination introuvable</h1>
     <router-link to="/destinations" class="mt-4 inline-block text-brand-gold hover:underline">Retour aux destinations</router-link>
   </div>
 
@@ -47,15 +47,15 @@ onMounted(() => {
     </section>
 
     <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6">
-      <p class="text-lg leading-relaxed text-gray-300">{{ destination.longDescription }}</p>
+      <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">{{ destination.longDescription }}</p>
 
       <section class="mt-14">
-        <h2 class="font-serif text-2xl font-semibold text-white">À vivre sur place</h2>
+        <h2 class="font-serif text-2xl font-semibold text-gray-900 dark:text-white">À vivre sur place</h2>
         <ul class="mt-4 space-y-3">
           <li
             v-for="(item, i) in destination.highlights"
             :key="i"
-            class="flex items-start gap-3 border-l-2 border-brand-gold/50 pl-4 text-gray-300"
+            class="flex items-start gap-3 border-l-2 border-brand-gold/50 pl-4 text-gray-700 dark:text-gray-300"
           >
             <span class="text-brand-gold">—</span>
             {{ item }}
@@ -63,14 +63,14 @@ onMounted(() => {
         </ul>
       </section>
 
-      <section class="mt-14 rounded-lg border border-brand-border bg-brand-card/50 p-6">
-        <h2 class="font-serif text-2xl font-semibold text-white">Consignes de sécurité</h2>
-        <p class="mt-2 text-sm text-gray-400">À respecter impérativement pour tout séjour temporel.</p>
+      <section class="mt-14 rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-brand-border dark:bg-brand-card/50">
+        <h2 class="font-serif text-2xl font-semibold text-gray-900 dark:text-white">Consignes de sécurité</h2>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">À respecter impérativement pour tout séjour temporel.</p>
         <ul class="mt-4 space-y-2">
           <li
             v-for="(item, i) in destination.safety"
             :key="i"
-            class="flex items-start gap-2 text-sm text-gray-300"
+            class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
           >
             <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold" />
             {{ item }}
@@ -87,7 +87,7 @@ onMounted(() => {
         </router-link>
         <router-link
           to="/"
-          class="inline-flex items-center text-gray-400 transition hover:text-white"
+          class="inline-flex items-center text-gray-600 transition hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
         >
           Accueil
         </router-link>

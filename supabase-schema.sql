@@ -69,3 +69,7 @@ create policy "Users can insert own reservations"
 create policy "Users can update own reservations"
   on public.reservations for update
   using (auth.uid() = user_id);
+
+create policy "Users can delete own reservations"
+  on public.reservations for delete
+  using (auth.uid() = user_id);

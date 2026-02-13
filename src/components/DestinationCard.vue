@@ -21,9 +21,9 @@ const imageStyle = computed(() => {
 <template>
   <router-link
     :to="`/destinations/${id}`"
-    class="group block overflow-hidden rounded-lg border border-brand-border bg-brand-card transition hover:border-brand-gold/50"
+    class="group block overflow-hidden rounded-lg border border-gray-200 bg-white transition hover:border-brand-gold/50 dark:border-brand-border dark:bg-brand-card"
   >
-    <div class="relative aspect-[4/3] overflow-hidden bg-brand-card">
+    <div class="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-brand-card">
       <img
         v-if="!imageFailed"
         :src="image"
@@ -46,7 +46,7 @@ const imageStyle = computed(() => {
     </div>
     <div class="p-4">
       <p v-if="tagline" class="mb-2 text-xs uppercase tracking-wider text-brand-gold">{{ tagline }}</p>
-      <p class="line-clamp-3 text-sm text-gray-400">{{ description }}</p>
+      <p class="line-clamp-3 text-sm text-gray-600 dark:text-gray-400">{{ description }}</p>
       <p class="mt-3 text-sm font-medium text-brand-gold group-hover:underline">Découvrir</p>
     </div>
   </router-link>

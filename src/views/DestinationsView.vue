@@ -7,10 +7,10 @@ import DestinationCard from '../components/DestinationCard.vue'
   <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
     <header class="mb-16">
       <p class="text-sm font-medium uppercase tracking-wider text-brand-gold">Destinations</p>
-      <h1 class="mt-2 font-serif text-4xl font-semibold text-white sm:text-5xl">
+      <h1 class="mt-2 font-serif text-4xl font-semibold text-gray-900 dark:text-white sm:text-5xl">
         Choisissez votre époque
       </h1>
-      <p class="mt-6 max-w-2xl text-gray-400">
+      <p class="mt-6 max-w-2xl text-gray-600 dark:text-gray-400">
         Trois voyages temporels accessibles avec encadrement et protocoles de sécurité. Chaque destination propose un programme détaillé et des conditions claires.
       </p>
     </header>

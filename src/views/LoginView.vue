@@ -30,34 +30,34 @@ async function submit() {
 
 <template>
   <div class="mx-auto max-w-md px-4 py-20">
-    <h1 class="font-serif text-3xl font-semibold text-white">Connexion</h1>
-    <p class="mt-2 text-gray-400">Accédez à votre compte TimeTravel Agency.</p>
+    <h1 class="font-serif text-3xl font-semibold text-gray-900 dark:text-white">Connexion</h1>
+    <p class="mt-2 text-gray-600 dark:text-gray-400">Accédez à votre compte TimeTravel Agency.</p>
 
     <form class="mt-10 space-y-6" @submit.prevent="submit">
-      <p v-if="error" class="rounded border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+      <p v-if="error" class="rounded border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-300">
         {{ error }}
       </p>
       <div>
-        <label for="login-email" class="block text-sm font-medium text-gray-300">Email</label>
+        <label for="login-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
         <input
           id="login-email"
           v-model="email"
           type="email"
           autocomplete="email"
           required
-          class="mt-2 w-full rounded-lg border border-brand-border bg-brand-card px-4 py-3 text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold"
+          class="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold dark:border-brand-border dark:bg-brand-card dark:text-white"
           placeholder="vous@exemple.fr"
         />
       </div>
       <div>
-        <label for="login-password" class="block text-sm font-medium text-gray-300">Mot de passe</label>
+        <label for="login-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Mot de passe</label>
         <input
           id="login-password"
           v-model="password"
           type="password"
           autocomplete="current-password"
           required
-          class="mt-2 w-full rounded-lg border border-brand-border bg-brand-card px-4 py-3 text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold"
+          class="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold dark:border-brand-border dark:bg-brand-card dark:text-white"
         />
       </div>
       <button
@@ -69,7 +69,7 @@ async function submit() {
       </button>
     </form>
 
-    <p class="mt-8 text-center text-sm text-gray-400">
+    <p class="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
       Pas encore de compte ?
       <router-link to="/inscription" class="text-brand-gold hover:underline">S'inscrire</router-link>
     </p>

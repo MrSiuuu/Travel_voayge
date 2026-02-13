@@ -48,7 +48,7 @@ onMounted(() => {
           </router-link>
           <button
             type="button"
-            class="inline-flex items-center rounded border border-brand-border bg-brand-card/80 px-6 py-3 font-medium text-white transition hover:border-brand-gold/50 hover:bg-brand-card"
+            class="inline-flex items-center rounded border border-gray-300 bg-white px-6 py-3 font-medium text-gray-900 transition hover:border-brand-gold/50 hover:bg-gray-50 dark:border-brand-border dark:bg-brand-card/80 dark:text-white dark:hover:bg-brand-card"
             @click="showQuiz = true"
           >
             Quiz : quelle destination pour moi ?
@@ -57,26 +57,26 @@ onMounted(() => {
       </div>
     </section>
 
-    <section class="border-t border-brand-border bg-brand-card/30 py-20">
+    <section class="border-t border-gray-200 bg-white py-20 dark:border-brand-border dark:bg-brand-card/30">
       <div class="mx-auto max-w-6xl px-4 sm:px-6">
-        <h2 class="font-serif text-3xl font-semibold text-white sm:text-4xl">
+        <h2 class="font-serif text-3xl font-semibold text-gray-900 dark:text-white sm:text-4xl">
           Pourquoi TimeTravel Agency
         </h2>
-        <p class="mt-4 max-w-2xl text-gray-400">
+        <p class="mt-4 max-w-2xl text-gray-600 dark:text-gray-400">
           Nous proposons des séjours temporels encadrés, avec des protocoles stricts de non-interférence et un suivi continu. Chaque voyage est conçu pour l’authenticité et la sécurité.
         </p>
         <div class="mt-12 grid gap-8 sm:grid-cols-3">
           <div class="border-l-2 border-brand-gold pl-6">
-            <h3 class="font-serif text-lg font-semibold text-white">Destinations vérifiées</h3>
-            <p class="mt-2 text-sm text-gray-400">Crétacé, Florence 1504, Paris 1889 : trois époques accessibles avec un taux de réussite maximal.</p>
+            <h3 class="font-serif text-lg font-semibold text-gray-900 dark:text-white">Destinations vérifiées</h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Crétacé, Florence 1504, Paris 1889 : trois époques accessibles avec un taux de réussite maximal.</p>
           </div>
           <div class="border-l-2 border-brand-gold pl-6">
-            <h3 class="font-serif text-lg font-semibold text-white">Sécurité avant tout</h3>
-            <p class="mt-2 text-sm text-gray-400">Bulles de protection, consignes claires et retour garanti. Aucune prise de risque sur la chronologie.</p>
+            <h3 class="font-serif text-lg font-semibold text-gray-900 dark:text-white">Sécurité avant tout</h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Bulles de protection, consignes claires et retour garanti. Aucune prise de risque sur la chronologie.</p>
           </div>
           <div class="border-l-2 border-brand-gold pl-6">
-            <h3 class="font-serif text-lg font-semibold text-white">Conseil personnalisé</h3>
-            <p class="mt-2 text-sm text-gray-400">Agent de voyage temporel et quiz pour vous orienter vers la destination qui vous correspond.</p>
+            <h3 class="font-serif text-lg font-semibold text-gray-900 dark:text-white">Conseil personnalisé</h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Agent de voyage temporel et quiz pour vous orienter vers la destination qui vous correspond.</p>
           </div>
         </div>
       </div>
@@ -84,10 +84,10 @@ onMounted(() => {
 
     <section class="py-20">
       <div class="mx-auto max-w-6xl px-4 sm:px-6">
-        <h2 class="font-serif text-3xl font-semibold text-white sm:text-4xl">
+        <h2 class="font-serif text-3xl font-semibold text-gray-900 dark:text-white sm:text-4xl">
           Nos destinations
         </h2>
-        <p class="mt-4 text-gray-400">
+        <p class="mt-4 text-gray-600 dark:text-gray-400">
           Trois époques, trois expériences. Cliquez pour les détails et les conditions.
         </p>
         <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

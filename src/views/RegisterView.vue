@@ -40,41 +40,41 @@ async function submit() {
 
 <template>
   <div class="mx-auto max-w-md px-4 py-20">
-    <h1 class="font-serif text-3xl font-semibold text-white">Inscription</h1>
-    <p class="mt-2 text-gray-400">Créez votre compte pour personnaliser vos recommandations.</p>
+    <h1 class="font-serif text-3xl font-semibold text-gray-900 dark:text-white">Inscription</h1>
+    <p class="mt-2 text-gray-600 dark:text-gray-400">Créez votre compte pour personnaliser vos recommandations.</p>
 
     <form class="mt-10 space-y-6" @submit.prevent="submit">
-      <p v-if="error" class="rounded border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+      <p v-if="error" class="rounded border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-300">
         {{ error }}
       </p>
-      <p v-if="success" class="rounded border border-green-500/50 bg-green-500/10 px-4 py-3 text-sm text-green-300">
+      <p v-if="success" class="rounded border border-green-500/50 bg-green-500/10 px-4 py-3 text-sm text-green-700 dark:text-green-300">
         {{ success }}
       </p>
       <div>
-        <label for="reg-name" class="block text-sm font-medium text-gray-300">Nom (optionnel)</label>
+        <label for="reg-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nom (optionnel)</label>
         <input
           id="reg-name"
           v-model="fullName"
           type="text"
           autocomplete="name"
-          class="mt-2 w-full rounded-lg border border-brand-border bg-brand-card px-4 py-3 text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold"
+          class="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold dark:border-brand-border dark:bg-brand-card dark:text-white"
           placeholder="Votre nom"
         />
       </div>
       <div>
-        <label for="reg-email" class="block text-sm font-medium text-gray-300">Email</label>
+        <label for="reg-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
         <input
           id="reg-email"
           v-model="email"
           type="email"
           autocomplete="email"
           required
-          class="mt-2 w-full rounded-lg border border-brand-border bg-brand-card px-4 py-3 text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold"
+          class="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold dark:border-brand-border dark:bg-brand-card dark:text-white"
           placeholder="vous@exemple.fr"
         />
       </div>
       <div>
-        <label for="reg-password" class="block text-sm font-medium text-gray-300">Mot de passe</label>
+        <label for="reg-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Mot de passe</label>
         <input
           id="reg-password"
           v-model="password"
@@ -82,7 +82,7 @@ async function submit() {
           autocomplete="new-password"
           required
           minlength="6"
-          class="mt-2 w-full rounded-lg border border-brand-border bg-brand-card px-4 py-3 text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold"
+          class="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold dark:border-brand-border dark:bg-brand-card dark:text-white"
         />
         <p class="mt-1 text-xs text-gray-500">Minimum 6 caractères.</p>
       </div>
@@ -95,7 +95,7 @@ async function submit() {
       </button>
     </form>
 
-    <p class="mt-8 text-center text-sm text-gray-400">
+    <p class="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
       Déjà un compte ?
       <router-link to="/connexion" class="text-brand-gold hover:underline">Se connecter</router-link>
     </p>

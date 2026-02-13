@@ -68,7 +68,24 @@ npm run build
 npm run preview
 ```
 
-Le serveur API doit être déployé séparément (ex. Railway, Render) et l’URL d’API configurée en production (variable d’environnement côté front si besoin).
+## Déploiement tout-en-un (Coolify, etc.)
+
+Un seul service Node sert à la fois le front (fichiers statiques) et l’API `/api/chat`. Aucun Docker requis.
+
+1. **Build** : génère le dossier `dist/` (front).
+2. **Démarrage** : le serveur sert `dist/` et les routes API. Si `dist/` n’existe pas (dev), seul l’API est exposée.
+
+**Sur Coolify (sans Docker) :**
+
+- **Type** : application Node (ou script).
+- **Racine du projet** : dossier qui contient `package.json`, `server/`, `src/`.
+- **Commandes :**
+  - **Build** : `npm install && npm run build`
+  - **Démarrage** : `npm run start` (ou `node server/index.js`)
+- **Variables d’environnement** : les mêmes que en local (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `PERPLEXITY_API_KEY`). Les `VITE_*` sont injectées au moment du build.
+- **Port** : celui fourni par Coolify (souvent `PORT` dans l’env). Le serveur utilise `process.env.PORT || 3001`.
+
+Une seule URL pour le site et l’API : le front appelle `/api/chat` sur la même origine.
 
 ## Fonctionnalités
 

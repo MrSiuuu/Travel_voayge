@@ -1,22 +1,39 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
 const MAX_GUEST_MESSAGES = 3
 
 const auth = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 const open = ref(false)
+
 const welcomeContent = computed(() => {
   const name = auth.profile?.full_name?.split(' ')[0] || null
-  const base = 'Je suis l\'assistant de TimeTravel Agency. Je peux vous aider à choisir entre le Crétacé, Florence 1504 et Paris 1889, ou répondre à vos questions sur nos destinations et la sécurité des voyages temporels.'
-  return name ? `Bonjour ${name}. ${base}` : `Bonjour. ${base}`
+  if (!auth.isLoggedIn) {
+    return 'Bienvenue sur TimeTravel Agency. Découvrez nos trois destinations dans le temps (Crétacé, Florence 1504, Paris 1889) et posez-moi jusqu’à 3 questions ci-dessous. Créez un compte gratuit pour discuter sans limite et accéder à votre espace réservations.'
+  }
+  if (route.path === '/dashboard') {
+    return name
+      ? `Bonjour ${name}. Je peux vous aider pour vos réservations, nos destinations ou toute question. Que souhaitez-vous savoir ?`
+      : 'Bonjour. Je peux vous aider pour vos réservations, nos destinations (Crétacé, Florence 1504, Paris 1889) ou toute question. Que souhaitez-vous savoir ?'
+  }
+  return name
+    ? `Bonjour ${name}. Je peux vous aider à choisir une destination, répondre à vos questions ou vous guider vers votre espace. Que cherchez-vous ?`
+    : 'Bonjour. Je peux vous aider à choisir entre le Crétacé, Florence 1504 et Paris 1889, ou répondre à vos questions. Créez un compte pour discuter sans limite.'
 })
+
 const messages = ref([])
 onMounted(() => {
   if (messages.value.length === 0) messages.value = [{ role: 'assistant', content: welcomeContent.value }]
 })
+watch([() => auth.isLoggedIn, () => route.path], () => {
+  if (messages.value.length > 0 && messages.value[0].role === 'assistant') {
+    messages.value[0].content = welcomeContent.value
+  }
+}, { immediate: false })
 const input = ref('')
 const loading = ref(false)
 const demoMode = ref(false)
@@ -37,7 +54,9 @@ async function send() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: messages.value,
-        userContext: auth.userContextForChat?.() || undefined,
+        userContext: auth.isLoggedIn
+          ? auth.userContextForChat?.()
+          : 'Utilisateur invité (non connecté), sans compte. Oriente-le vers la création d’un compte et vers le bouton « Nouvelle réservation » dans le dashboard pour réserver.',
       }),
     })
     const data = await res.json()
@@ -66,11 +85,13 @@ function toggle() {
     <Transition name="chat">
       <div
         v-show="open"
-        class="mb-3 w-full max-w-md overflow-hidden rounded-xl border border-brand-border bg-brand-card shadow-xl"
+        class="mb-3 w-full max-w-md overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl dark:border-brand-border dark:bg-brand-card"
       >
-        <div class="border-b border-brand-border bg-brand-dark/80 px-4 py-3">
-          <p class="font-serif text-sm font-semibold text-white">Assistant TimeTravel</p>
-          <p class="text-xs text-brand-muted">Conseils et recommandations</p>
+        <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-brand-border dark:bg-brand-dark/80">
+          <p class="font-serif text-sm font-semibold text-gray-900 dark:text-white">Assistant TimeTravel</p>
+          <p class="text-xs text-gray-500 dark:text-brand-muted">
+            {{ auth.isLoggedIn && route.path === '/dashboard' ? 'Aide réservations et destinations' : 'Conseils et découverte' }}
+          </p>
         </div>
         <div class="flex h-80 flex-col">
           <div class="flex-1 overflow-y-auto p-4 space-y-4">
@@ -84,7 +105,7 @@ function toggle() {
                 class="max-w-[85%] rounded-lg px-4 py-2 text-sm"
                 :class="msg.role === 'user'
                   ? 'bg-brand-gold text-brand-dark'
-                  : 'bg-brand-dark border border-brand-border text-gray-200'"
+                  : 'border border-gray-200 bg-gray-100 text-gray-800 dark:border-brand-border dark:bg-brand-dark dark:text-gray-200'"
               >
                 {{ msg.content }}
               </div>
@@ -116,7 +137,7 @@ function toggle() {
                 type="text"
                 placeholder="Votre question..."
                 maxlength="500"
-                class="flex-1 rounded-lg border border-brand-border bg-brand-dark px-4 py-2 text-sm text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                class="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold dark:border-brand-border dark:bg-brand-dark dark:text-white"
               />
               <button
                 type="submit"
@@ -135,13 +156,11 @@ function toggle() {
     </Transition>
     <button
       type="button"
-      class="flex h-14 w-14 items-center justify-center rounded-full border border-brand-border bg-brand-card text-white shadow-lg transition hover:border-brand-gold/50 hover:bg-brand-card"
+      class="flex h-14 w-14 items-center justify-center rounded-full border-2 border-brand-gold bg-brand-card shadow-lg transition hover:border-brand-goldDim hover:bg-brand-dark dark:bg-brand-card dark:hover:bg-brand-dark"
       aria-label="Ouvrir le chat"
       @click="toggle"
     >
-      <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
+      <img src="/logo.png" alt="Chat" class="h-8 w-8 object-contain" />
     </button>
   </div>
 </template>
